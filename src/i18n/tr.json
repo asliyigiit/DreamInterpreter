@@ -1,0 +1,64 @@
+{
+  "common": {
+    "app_name": "Rüya Yorumlayıcı",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "retry": "Tekrar Dene",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "close": "Kapat"
+  },
+  "chat": {
+    "new_chat": "Yeni Sohbet",
+    "type_dream": "Rüyanızı yazın...",
+    "speak_dream": "Rüyanızı anlatın",
+    "select_analyst": "Psikanalistinizi seçin",
+    "sending": "Gönderiliyor...",
+    "thinking": "Rüyanız yorumlanıyor...",
+    "follow_up": "Takip sorusu sorun...",
+    "ad_loading": "Reklam yükleniyor...",
+    "history": "Sohbet Geçmişi",
+    "delete_confirm": "Bu konuşmayı silmek istiyor musunuz?",
+    "no_history": "Henüz sohbet geçmişi yok"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "theme": {
+      "title": "Tema",
+      "light": "Açık",
+      "dark": "Koyu"
+    },
+    "language": {
+      "title": "Dil",
+      "en": "İngilizce",
+      "tr": "Türkçe"
+    },
+    "analysts": {
+      "title": "Psikanalistler",
+      "add": "Yeni Ekle",
+      "edit": "Analist Düzenle",
+      "name": "İsim",
+      "color": "Rozet Rengi",
+      "description": "Açıklama"
+    },
+    "questions": {
+      "title": "Ön Sohbet Soruları",
+      "add": "Soru Ekle",
+      "edit": "Soru Düzenle",
+      "label": "Soru",
+      "type": "Cevap Tipi",
+      "options": "Seçenekler (açılır liste için)"
+    },
+    "about": {
+      "title": "Hakkında",
+      "version": "Versiyon",
+      "description": "Yapay zeka destekli psikanalitik rüya yorumlama uygulaması"
+    },
+    "privacy": {
+      "title": "Gizlilik ve Politika",
+      "content": "Bu uygulama hiçbir kişisel veri toplamaz veya saklamaz. Tüm konuşmalar sadece cihazınızda yerel olarak saklanır. Üçüncü taraf hizmetlerini (yorumlama için OpenAI ve reklamlar için Google AdMob) kendi gizlilik politikaları doğrultusunda kullanıyoruz."
+    }
+  }
+} 

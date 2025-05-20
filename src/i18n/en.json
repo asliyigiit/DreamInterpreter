@@ -1,0 +1,64 @@
+{
+  "common": {
+    "app_name": "Dream Interpreter",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "chat": {
+    "new_chat": "New Chat",
+    "type_dream": "Type your dream...",
+    "speak_dream": "Speak your dream",
+    "select_analyst": "Select your psychoanalyst",
+    "sending": "Sending...",
+    "thinking": "Interpreting your dream...",
+    "follow_up": "Ask a follow-up question...",
+    "ad_loading": "Loading advertisement...",
+    "history": "Chat History",
+    "delete_confirm": "Delete this conversation?",
+    "no_history": "No chat history yet"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "title": "Language",
+      "en": "English",
+      "tr": "Turkish"
+    },
+    "analysts": {
+      "title": "Psychoanalysts",
+      "add": "Add New",
+      "edit": "Edit Analyst",
+      "name": "Name",
+      "color": "Badge Color",
+      "description": "Description"
+    },
+    "questions": {
+      "title": "Pre-chat Questions",
+      "add": "Add Question",
+      "edit": "Edit Question",
+      "label": "Question",
+      "type": "Answer Type",
+      "options": "Options (for dropdown)"
+    },
+    "about": {
+      "title": "About",
+      "version": "Version",
+      "description": "A psychoanalytic dream interpretation app powered by AI"
+    },
+    "privacy": {
+      "title": "Privacy & Policy",
+      "content": "This app does not collect or store any personal data. All conversations are stored locally on your device. We use third-party services (OpenAI for interpretation and Google AdMob for advertisements) in accordance with their respective privacy policies."
+    }
+  }
+} 

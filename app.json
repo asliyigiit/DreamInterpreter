@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Dream Interpreter",
+    "slug": "dream-interpreter",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourdomain.dreaminterpreter",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "This app uses the microphone to record your dream descriptions.",
+        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to convert your spoken dream descriptions to text.",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "cstr6suwn9.skadnetwork"
+          }
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.yourdomain.dreaminterpreter",
+      "permissions": [
+        "RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-ads-admob"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2324c3bc-9e7d-4848-97e2-2b7fbf4343e7"
+      }
+    }
+  }
+}
