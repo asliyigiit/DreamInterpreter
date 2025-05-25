@@ -17,7 +17,7 @@
     "@react-navigation/stack": "6.3.20",
     "@types/i18next": "^12.1.0",
     "expo": "53.0.9",
-    "expo-ads-admob": "13.0.0",
+    "expo-ads-admob": "^13.0.0",
     "expo-localization": "~16.1.5",
     "expo-speech": "~13.1.7",
     "expo-status-bar": "~2.2.3",
@@ -30,7 +30,10 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
-    "react-native-svg": "15.11.2"
+    "react-native-svg": "15.11.2",
+    "react-dom": "19.0.0",
+    "react-native-web": "^0.20.0",
+    "@expo/metro-runtime": "~5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

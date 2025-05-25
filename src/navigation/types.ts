@@ -1,29 +1,20 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import type { NavigatorScreenParams } from '@react-navigation/native';
 
-// Main Stack Navigator
+// Root Stack Navigator
 export type RootStackParamList = {
   Main: NavigatorScreenParams<DrawerParamList>;
-  Chat: undefined;
-  Settings: undefined;
-  About: undefined;
-  Privacy: undefined;
-};
-
-// Left Drawer Navigator (Chat History)
-export type LeftDrawerParamList = {
-  ChatHistory: undefined;
-};
-
-// Right Drawer Navigator (Settings)
-export type RightDrawerParamList = {
   Settings: undefined;
   About: undefined;
   Privacy: undefined;
   AnalystSettings: undefined;
   QuestionSettings: undefined;
+  UserPreferences: undefined;
 };
 
-// Combined Drawer Navigator
+// Drawer Navigator
 export type DrawerParamList = {
   Chat: undefined;
-} & LeftDrawerParamList & RightDrawerParamList; 
+};
+
+// Combined Navigation Type
+export type RootNavigationType = RootStackParamList & DrawerParamList; 

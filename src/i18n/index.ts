@@ -20,12 +20,15 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      en: en,
-      tr: tr,
+      en: {
+        translation: en
+      },
+      tr: {
+        translation: tr
+      }
     },
     lng: getDeviceLocale(),
     fallbackLng: CONFIG.i18n.fallbackLocale,
-    defaultNS: 'common',
     interpolation: {
       escapeValue: false,
     },

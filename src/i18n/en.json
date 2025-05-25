@@ -23,42 +23,90 @@
     "delete_confirm": "Delete this conversation?",
     "no_history": "No chat history yet"
   },
+  "preferences": {
+    "settings": "Settings",
+    "manage_analysts": "Manage Analysts",
+    "manage_questions": "Manage Questions",
+    "info": "Information",
+    "about": "About",
+    "privacy": "Privacy & Policy"
+  },
   "settings": {
     "title": "Settings",
-    "theme": {
-      "title": "Theme",
-      "light": "Light",
-      "dark": "Dark"
-    },
-    "language": {
-      "title": "Language",
-      "en": "English",
-      "tr": "Turkish"
-    },
-    "analysts": {
-      "title": "Psychoanalysts",
-      "add": "Add New",
-      "edit": "Edit Analyst",
-      "name": "Name",
-      "color": "Badge Color",
-      "description": "Description"
-    },
-    "questions": {
-      "title": "Pre-chat Questions",
-      "add": "Add Question",
-      "edit": "Edit Question",
-      "label": "Question",
-      "type": "Answer Type",
-      "options": "Options (for dropdown)"
-    },
-    "about": {
-      "title": "About",
-      "version": "Version",
-      "description": "A psychoanalytic dream interpretation app powered by AI"
-    },
-    "privacy": {
-      "title": "Privacy & Policy",
-      "content": "This app does not collect or store any personal data. All conversations are stored locally on your device. We use third-party services (OpenAI for interpretation and Google AdMob for advertisements) in accordance with their respective privacy policies."
-    }
+    "appearance": "Appearance",
+    "dark_mode": "Dark Mode",
+    "language": "Language",
+    "customization": "Customization",
+    "manage_analysts": "Manage Analysts",
+    "manage_analysts_desc": "Add, edit, or remove psychoanalysts",
+    "manage_questions": "Manage Questions",
+    "manage_questions_desc": "Customize pre-chat questions",
+    "about": "About",
+    "about_app": "About App",
+    "privacy_policy": "Privacy Policy"
+  },
+  "analyst_settings": {
+    "fill_all_fields": "Please fill in all fields",
+    "saved_successfully": "Analyst saved successfully",
+    "deleted_successfully": "Analyst deleted successfully",
+    "minimum_required": "At least one analyst is required",
+    "add_analyst": "Add Analyst",
+    "edit_analyst": "Edit Analyst",
+    "name": "Name",
+    "badge_color": "Badge Color",
+    "description": "Description"
+  },
+  "question_settings": {
+    "fill_all_fields": "Please fill in all fields",
+    "add_options": "Please add options for dropdown",
+    "saved_successfully": "Question saved successfully",
+    "deleted_successfully": "Question deleted successfully",
+    "minimum_required": "At least one question is required",
+    "add_question": "Add Question",
+    "edit_question": "Edit Question",
+    "label": "Question Label",
+    "text_type": "Text",
+    "dropdown_type": "Dropdown",
+    "options": "Options",
+    "options_placeholder": "Enter each option on a new line"
+  },
+  "chat_history": {
+    "messages_count": "{{count}} messages",
+    "no_conversations": "No conversations yet"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "last_updated": "Last Updated: {{date}}",
+    "data_collection": "Data Collection",
+    "data_collection_desc": "We collect the following information:",
+    "data_dreams": "Dream descriptions you provide",
+    "data_preferences": "App preferences and settings",
+    "data_usage": "App usage statistics",
+    "data_use": "How We Use Your Data",
+    "data_use_desc": "Your data is used for:",
+    "use_improve": "Improving dream interpretations",
+    "use_personalize": "Personalizing your experience",
+    "use_research": "Research and analytics",
+    "data_sharing": "Data Sharing",
+    "data_sharing_desc": "We share data with:",
+    "share_openai": "OpenAI for dream interpretation",
+    "share_analytics": "Analytics services",
+    "data_security": "Data Security",
+    "data_security_desc": "We employ industry-standard security measures to protect your data",
+    "user_rights": "Your Rights",
+    "user_rights_desc": "You have the following rights:",
+    "right_access": "Access your data",
+    "right_delete": "Delete your data",
+    "right_export": "Export your data",
+    "contact": "Contact Us",
+    "contact_desc": "For privacy concerns, contact us at privacy@dreaminterpreter.app"
+  },
+  "about": {
+    "how_it_works": "How It Works",
+    "how_it_works_desc": "Our app uses advanced AI to interpret your dreams through the lens of various psychoanalytic theories",
+    "analysts": "Our Analysts",
+    "support": "Support",
+    "support_desc": "Need help? We're here for you",
+    "contact_support": "Contact Support"
   }
 } 

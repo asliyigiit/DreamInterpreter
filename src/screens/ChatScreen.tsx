@@ -6,7 +6,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { useTheme, TextInput, Button, Text } from 'react-native-paper';
+import { useTheme, TextInput, Button, Text, IconButton } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import * as Speech from 'expo-speech';
 
@@ -118,23 +118,19 @@ const ChatScreen: React.FC = () => {
           style={styles.input}
           multiline
         />
-        <Button
+        <IconButton
           mode="contained"
           onPress={handleSend}
-          loading={isLoading}
           disabled={isLoading || !inputText.trim() || !selectedAnalyst}
           style={styles.sendButton}
-        >
-          {t('common.send')}
-        </Button>
-        <Button
+          icon="send"
+        />
+        <IconButton
           mode="outlined"
           onPress={startSpeechToText}
           disabled={isLoading}
           icon="microphone"
-        >
-          {t('chat.speak_dream')}
-        </Button>
+        />
       </View>
     </KeyboardAvoidingView>
   );

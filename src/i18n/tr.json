@@ -23,42 +23,90 @@
     "delete_confirm": "Bu konuşmayı silmek istiyor musunuz?",
     "no_history": "Henüz sohbet geçmişi yok"
   },
+  "preferences": {
+    "settings": "Ayarlar",
+    "manage_analysts": "Analistleri Yönet",
+    "manage_questions": "Soruları Yönet",
+    "info": "Bilgi",
+    "about": "Hakkında",
+    "privacy": "Gizlilik ve Politika"
+  },
   "settings": {
     "title": "Ayarlar",
-    "theme": {
-      "title": "Tema",
-      "light": "Açık",
-      "dark": "Koyu"
-    },
-    "language": {
-      "title": "Dil",
-      "en": "İngilizce",
-      "tr": "Türkçe"
-    },
-    "analysts": {
-      "title": "Psikanalistler",
-      "add": "Yeni Ekle",
-      "edit": "Analist Düzenle",
-      "name": "İsim",
-      "color": "Rozet Rengi",
-      "description": "Açıklama"
-    },
-    "questions": {
-      "title": "Ön Sohbet Soruları",
-      "add": "Soru Ekle",
-      "edit": "Soru Düzenle",
-      "label": "Soru",
-      "type": "Cevap Tipi",
-      "options": "Seçenekler (açılır liste için)"
-    },
-    "about": {
-      "title": "Hakkında",
-      "version": "Versiyon",
-      "description": "Yapay zeka destekli psikanalitik rüya yorumlama uygulaması"
-    },
-    "privacy": {
-      "title": "Gizlilik ve Politika",
-      "content": "Bu uygulama hiçbir kişisel veri toplamaz veya saklamaz. Tüm konuşmalar sadece cihazınızda yerel olarak saklanır. Üçüncü taraf hizmetlerini (yorumlama için OpenAI ve reklamlar için Google AdMob) kendi gizlilik politikaları doğrultusunda kullanıyoruz."
-    }
+    "appearance": "Görünüm",
+    "dark_mode": "Karanlık Mod",
+    "language": "Dil",
+    "customization": "Özelleştirme",
+    "manage_analysts": "Analistleri Yönet",
+    "manage_analysts_desc": "Psikanalistleri ekle, düzenle veya kaldır",
+    "manage_questions": "Soruları Yönet",
+    "manage_questions_desc": "Ön sohbet sorularını özelleştir",
+    "about": "Hakkında",
+    "about_app": "Uygulama Hakkında",
+    "privacy_policy": "Gizlilik Politikası"
+  },
+  "analyst_settings": {
+    "fill_all_fields": "Lütfen tüm alanları doldurun",
+    "saved_successfully": "Analist başarıyla kaydedildi",
+    "deleted_successfully": "Analist başarıyla silindi",
+    "minimum_required": "En az bir analist gereklidir",
+    "add_analyst": "Analist Ekle",
+    "edit_analyst": "Analisti Düzenle",
+    "name": "İsim",
+    "badge_color": "Rozet Rengi",
+    "description": "Açıklama"
+  },
+  "question_settings": {
+    "fill_all_fields": "Lütfen tüm alanları doldurun",
+    "add_options": "Lütfen açılır liste için seçenekler ekleyin",
+    "saved_successfully": "Soru başarıyla kaydedildi",
+    "deleted_successfully": "Soru başarıyla silindi",
+    "minimum_required": "En az bir soru gereklidir",
+    "add_question": "Soru Ekle",
+    "edit_question": "Soruyu Düzenle",
+    "label": "Soru Etiketi",
+    "text_type": "Metin",
+    "dropdown_type": "Açılır Liste",
+    "options": "Seçenekler",
+    "options_placeholder": "Her seçeneği yeni bir satıra yazın"
+  },
+  "chat_history": {
+    "messages_count": "{{count}} mesaj",
+    "no_conversations": "Henüz sohbet geçmişi yok"
+  },
+  "privacy": {
+    "title": "Gizlilik Politikası",
+    "last_updated": "Son Güncelleme: {{date}}",
+    "data_collection": "Veri Toplama",
+    "data_collection_desc": "Aşağıdaki bilgileri topluyoruz:",
+    "data_dreams": "Paylaştığınız rüya açıklamaları",
+    "data_preferences": "Uygulama tercihleri ve ayarları",
+    "data_usage": "Uygulama kullanım istatistikleri",
+    "data_use": "Verilerinizi Nasıl Kullanıyoruz",
+    "data_use_desc": "Verileriniz şunlar için kullanılır:",
+    "use_improve": "Rüya yorumlamalarını iyileştirme",
+    "use_personalize": "Deneyiminizi kişiselleştirme",
+    "use_research": "Araştırma ve analiz",
+    "data_sharing": "Veri Paylaşımı",
+    "data_sharing_desc": "Verileri şunlarla paylaşıyoruz:",
+    "share_openai": "Rüya yorumlama için OpenAI",
+    "share_analytics": "Analiz servisleri",
+    "data_security": "Veri Güvenliği",
+    "data_security_desc": "Verilerinizi korumak için endüstri standardı güvenlik önlemleri kullanıyoruz",
+    "user_rights": "Haklarınız",
+    "user_rights_desc": "Aşağıdaki haklara sahipsiniz:",
+    "right_access": "Verilerinize erişim",
+    "right_delete": "Verilerinizi silme",
+    "right_export": "Verilerinizi dışa aktarma",
+    "contact": "Bize Ulaşın",
+    "contact_desc": "Gizlilik endişeleriniz için privacy@dreaminterpreter.app adresinden bize ulaşın"
+  },
+  "about": {
+    "how_it_works": "Nasıl Çalışır",
+    "how_it_works_desc": "Uygulamamız, rüyalarınızı çeşitli psikanalitik teoriler ışığında yorumlamak için gelişmiş yapay zeka kullanır",
+    "analysts": "Analistlerimiz",
+    "support": "Destek",
+    "support_desc": "Yardıma mı ihtiyacınız var? Buradayız",
+    "contact_support": "Destek ile İletişime Geç"
   }
 } 
