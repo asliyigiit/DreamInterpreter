@@ -76,8 +76,9 @@ export const CONFIG = {
   // OpenAI configuration
   openai: {
     // CUSTOM_CONFIG HERE - Replace with actual API key and endpoint
-    apiKey: 'your-api-key-here',
+    apiKey: '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',
     endpoint: 'https://api.openai.com/v1/chat/completions',
+    assistantId: 'asst_ybm6SVymAwjWF7bEDD7PFCvI',
     model: 'gpt-4-turbo-preview',
     temperature: 0.7,
     maxTokens: 2000,

@@ -94,6 +94,15 @@ class StorageService {
     await this.setConversations(filtered);
   }
 
+  async updateConversation(conversation: Conversation): Promise<void> {
+    const conversations = await this.getConversations();
+    const index = conversations.findIndex(c => c.id === conversation.id);
+    if (index !== -1) {
+      conversations[index] = conversation;
+      await this.setConversations(conversations);
+    }
+  }
+
   // Initialize app state
   async getInitialState(): Promise<Partial<AppState>> {
     const [theme, language, analysts, questions, conversations] = await Promise.all([

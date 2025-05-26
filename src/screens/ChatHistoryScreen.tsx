@@ -42,6 +42,10 @@ const ChatHistoryScreen: React.FC = () => {
     return new Date(timestamp).toLocaleDateString();
   };
 
+  const handleOpenConversation = (conversation: Conversation) => {
+    navigation.navigate('Chat', { conversationId: conversation.id });
+  };
+
   const renderConversation = ({ item }: { item: Conversation }) => {
     const firstMessage = item.messages[0]?.text || '';
     const truncatedMessage = firstMessage.length > 100
@@ -49,7 +53,7 @@ const ChatHistoryScreen: React.FC = () => {
       : firstMessage;
 
     return (
-      <Card style={styles.card}>
+      <Card style={styles.card} onPress={() => handleOpenConversation(item)}>
         <Card.Content>
           <View style={styles.headerContainer}>
             <View style={styles.titleContainer}>

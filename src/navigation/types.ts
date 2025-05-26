@@ -13,7 +13,8 @@ export type RootStackParamList = {
 
 // Drawer Navigator
 export type DrawerParamList = {
-  Chat: undefined;
+  Chat: { conversationId?: string } | undefined;
+  ChatHistory: undefined;
 };
 
 // Combined Navigation Type

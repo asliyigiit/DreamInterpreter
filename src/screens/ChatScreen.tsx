@@ -1,28 +1,65 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   FlatList,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Modal,
 } from 'react-native';
-import { useTheme, TextInput, Button, Text, IconButton } from 'react-native-paper';
+import { useTheme, TextInput, Button, Text, IconButton, Dialog, Portal } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import * as Speech from 'expo-speech';
+import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { Message, Psychoanalyst } from '../types';
 import OpenAIService from '../services/openai';
 import AdService, { BannerAd } from '../services/ads';
 import StorageService from '../services/storage';
+import { DrawerParamList } from '../navigation/types';
+import { CONFIG } from '../config/config';
+
+type ChatScreenRouteProp = RouteProp<DrawerParamList, 'Chat'>;
 
 const ChatScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const route = useRoute<ChatScreenRouteProp>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAnalyst, setSelectedAnalyst] = useState<Psychoanalyst | null>(null);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const [showAnalystDialog, setShowAnalystDialog] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+
+  useEffect(() => {
+    // Load existing conversation if provided through navigation
+    if (route.params?.conversationId) {
+      loadConversation(route.params.conversationId);
+    }
+  }, [route.params?.conversationId]);
+
+  useEffect(() => {
+    // Show analyst selection dialog if no analyst is selected
+    if (!selectedAnalyst && !route.params?.conversationId) {
+      setShowAnalystDialog(true);
+    }
+  }, [selectedAnalyst, route.params?.conversationId]);
+
+  const loadConversation = async (conversationId: string) => {
+    try {
+      const conversations = await StorageService.getConversations();
+      const conversation = conversations.find(c => c.id === conversationId);
+      if (conversation) {
+        setMessages(conversation.messages);
+        setSelectedAnalyst(conversation.analyst);
+        setCurrentConversationId(conversationId);
+      }
+    } catch (error) {
+      console.error('Failed to load conversation:', error);
+    }
+  };
 
   const handleSend = async () => {
     if (!inputText.trim() || !selectedAnalyst) return;
@@ -34,19 +71,25 @@ const ChatScreen: React.FC = () => {
       timestamp: Date.now(),
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     setInputText('');
     setIsLoading(true);
 
     try {
-      // Show interstitial ad before getting response
-      await AdService.showInterstitial();
+      //await AdService.showInterstitial();
 
-      const response = await OpenAIService.interpretDream(
-        inputText,
-        selectedAnalyst.name,
-        {} // Add pre-chat answers here
-      );
+      const response = currentConversationId 
+        ? await OpenAIService.followUpQuestion(
+            updatedMessages.map(m => m.text),
+            inputText,
+            selectedAnalyst.name,
+          )
+        : await OpenAIService.interpretDream(
+            inputText,
+            selectedAnalyst.name,
+            {},
+          );
 
       if (response.text) {
         const aiMessage: Message = {
@@ -55,16 +98,24 @@ const ChatScreen: React.FC = () => {
           isUser: false,
           timestamp: Date.now(),
         };
-        setMessages(prev => [...prev, aiMessage]);
+        
+        const finalMessages = [...updatedMessages, aiMessage];
+        setMessages(finalMessages);
 
-        // Save conversation to storage
-        await StorageService.addConversation({
-          id: Date.now().toString(),
+        const conversationData = {
+          id: currentConversationId || Date.now().toString(),
           analyst: selectedAnalyst,
-          messages: [...messages, newMessage, aiMessage],
+          messages: finalMessages,
           preChatAnswers: {},
           timestamp: Date.now(),
-        });
+        };
+
+        if (currentConversationId) {
+          await StorageService.updateConversation(conversationData);
+        } else {
+          await StorageService.addConversation(conversationData);
+          setCurrentConversationId(conversationData.id);
+        }
       }
     } catch (error) {
       console.error('Failed to get AI response:', error);
@@ -79,6 +130,11 @@ const ChatScreen: React.FC = () => {
     } catch (error) {
       console.error('Speech to text error:', error);
     }
+  };
+
+  const handleAnalystSelection = (analyst: Psychoanalyst) => {
+    setSelectedAnalyst(analyst);
+    setShowAnalystDialog(false);
   };
 
   const renderMessage = ({ item }: { item: Message }) => (
@@ -132,6 +188,23 @@ const ChatScreen: React.FC = () => {
           icon="microphone"
         />
       </View>
+
+      <Modal visible={showAnalystDialog} onDismiss={() => setShowAnalystDialog(false)}>
+        <Dialog.Title>{t('chat.select_analyst')}</Dialog.Title>
+        <Dialog.Content>
+            {CONFIG.psychoanalysts.map((analyst: Psychoanalyst) => (
+              <Button
+                key={analyst.id}
+                mode="outlined"
+                onPress={() => handleAnalystSelection(analyst)}
+                style={styles.analystButton}
+                labelStyle={{ color: analyst.badgeColor }}
+              >
+                {analyst.name}
+              </Button>
+            ))}
+          </Dialog.Content>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };
@@ -170,6 +243,9 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     marginLeft: 8,
+  },
+  analystButton: {
+    marginVertical: 4,
   },
 });
 
