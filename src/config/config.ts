@@ -76,10 +76,10 @@ export const CONFIG = {
   // OpenAI configuration
   openai: {
     // CUSTOM_CONFIG HERE - Replace with actual API key and endpoint
-    apiKey: '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',
+    apiKey: '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',
     endpoint: 'https://api.openai.com/v1/chat/completions',
-    assistantId: 'asst_ybm6SVymAwjWF7bEDD7PFCvI',
-    model: 'gpt-4-turbo-preview',
+    assistantId: 'asst_uEwtZVZFuqDUzYAtyzbX92Zm',
+    model: 'gpt-4o-mini',
     temperature: 0.7,
     maxTokens: 2000,
   },
