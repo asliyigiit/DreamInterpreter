@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack/src/index';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme, IconButton, Text, Card, Title, Paragraph, Divider } from 'react-native-paper';
 import type { StackNavigationProp } from '@react-navigation/stack';
+import type { DrawerScreenProps } from '@react-navigation/drawer';
 
 import ChatScreen from '../screens/ChatScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -21,14 +22,15 @@ import {
   DrawerParamList,
 } from './types';
 
+type DrawerNavigatorNavigationProp = StackNavigationProp<RootStackParamList>;
+
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<DrawerParamList>();
-
-type DrawerNavigatorNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const CustomDrawerContent = () => {
   const theme = useTheme();
   const navigation = useNavigation<DrawerNavigatorNavigationProp>();
+  const route = useRoute<DrawerScreenProps<DrawerParamList, 'Chat'>['route']>();
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
   useEffect(() => {
@@ -168,10 +170,12 @@ const CustomDrawerContent = () => {
     });
   };
 
-  const handleOpenChat = () => {
-    // TODO: Implement navigation to specific chat
+  const handleOpenChat = (conversation: Conversation) => {
     navigation.navigate('Main', {
-      screen: 'Chat'
+      screen: 'Chat',
+      params: {
+        conversationId: conversation.id
+      }
     });
   };
 
@@ -202,11 +206,16 @@ const CustomDrawerContent = () => {
               ? `${firstMessage.substring(0, 50)}...`
               : firstMessage;
 
+            const isSelected = conversation.id === route?.params?.conversationId;
+
             return (
               <TouchableOpacity
                 key={conversation.id}
-                style={styles.conversationItem}
-                onPress={handleOpenChat}
+                style={[
+                  styles.conversationItem,
+                  isSelected && { backgroundColor: theme.colors.primaryContainer }
+                ]}
+                onPress={() => handleOpenChat(conversation)}
               >
                 <View style={styles.conversationContent}>
                   <Text style={styles.analystName}>{conversation.analyst.name}</Text>

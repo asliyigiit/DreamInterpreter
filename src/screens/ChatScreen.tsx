@@ -37,11 +37,17 @@ const ChatScreen: React.FC = () => {
     // Load existing conversation if provided through navigation
     if (route.params?.conversationId) {
       loadConversation(route.params.conversationId);
+    } else {
+      // Reset state for new conversation
+      setMessages([]);
+      setSelectedAnalyst(null);
+      setCurrentConversationId(null);
+      setShowAnalystDialog(true);
     }
   }, [route.params?.conversationId]);
 
   useEffect(() => {
-    // Show analyst selection dialog if no analyst is selected
+    // Show analyst selection dialog if no analyst is selected and no conversation is loaded
     if (!selectedAnalyst && !route.params?.conversationId) {
       setShowAnalystDialog(true);
     }
@@ -55,6 +61,7 @@ const ChatScreen: React.FC = () => {
         setMessages(conversation.messages);
         setSelectedAnalyst(conversation.analyst);
         setCurrentConversationId(conversationId);
+        setShowAnalystDialog(false); // Make sure dialog is closed when loading conversation
       }
     } catch (error) {
       console.error('Failed to load conversation:', error);
