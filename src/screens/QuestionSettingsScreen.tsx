@@ -9,7 +9,7 @@ import {
   IconButton,
   Text,
   Portal,
-  Dialog,
+  Modal,
   Snackbar,
   SegmentedButtons,
 } from 'react-native-paper';
@@ -140,31 +140,30 @@ const QuestionSettingsScreen: React.FC = () => {
       </ScrollView>
 
       <Portal>
-        <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-          <Dialog.Title>
-            {editingQuestion?.label
-              ? t('question_settings.edit_question')
-              : t('question_settings.add_question')}
-          </Dialog.Title>
-          <Dialog.Content>
+        <Modal
+          visible={dialogVisible}
+          onDismiss={() => setDialogVisible(false)}
+          contentContainerStyle={[
+            styles.modalContent,
+            { backgroundColor: theme.colors.surface }
+          ]}
+        >
+          <Text style={styles.modalTitle}>
+            {t('question_settings.edit_question')}
+          </Text>
+          <View style={styles.modalBody}>
             <TextInput
-              label={t('question_settings.label')}
-              value={editingQuestion?.label}
-              onChangeText={text =>
-                setEditingQuestion(prev => prev ? { ...prev, label: text } : null)
-              }
+              label={t('question_settings.question_label')}
+              value={editingQuestion?.label || ''}
+              onChangeText={text => setEditingQuestion(prev => prev ? { ...prev, label: text } : null)}
               style={styles.input}
             />
             <SegmentedButtons
               value={editingQuestion?.type || 'text'}
-              onValueChange={value =>
-                setEditingQuestion(prev =>
-                  prev ? { ...prev, type: value as 'text' | 'dropdown' } : null
-                )
-              }
+              onValueChange={value => setEditingQuestion(prev => prev ? { ...prev, type: value as 'text' | 'dropdown' } : null)}
               buttons={[
-                { value: 'text', label: t('question_settings.text_type') },
-                { value: 'dropdown', label: t('question_settings.dropdown_type') },
+                { value: 'text', label: t('question_settings.text') },
+                { value: 'dropdown', label: t('question_settings.dropdown') },
               ]}
               style={styles.segmentedButtons}
             />
@@ -179,14 +178,16 @@ const QuestionSettingsScreen: React.FC = () => {
                 placeholder={t('question_settings.options_placeholder')}
               />
             )}
-          </Dialog.Content>
-          <Dialog.Actions>
+          </View>
+          <View style={styles.modalActions}>
             <Button onPress={() => setDialogVisible(false)}>
               {t('common.cancel')}
             </Button>
-            <Button onPress={handleSave}>{t('common.save')}</Button>
-          </Dialog.Actions>
-        </Dialog>
+            <Button onPress={handleSave}>
+              {t('common.save')}
+            </Button>
+          </View>
+        </Modal>
       </Portal>
 
       <Snackbar
@@ -242,6 +243,24 @@ const styles = StyleSheet.create({
   },
   segmentedButtons: {
     marginBottom: 16,
+  },
+  modalContent: {
+    padding: 20,
+    margin: 20,
+    borderRadius: 8,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  modalBody: {
+    marginBottom: 16,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 8,
   },
 });
 

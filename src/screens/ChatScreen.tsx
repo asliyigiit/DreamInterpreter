@@ -5,9 +5,20 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Modal,
+  ActivityIndicator,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
-import { useTheme, TextInput, Button, Text, IconButton, Dialog, Portal } from 'react-native-paper';
+import { 
+  useTheme, 
+  TextInput, 
+  Button, 
+  Text, 
+  IconButton, 
+  Portal, 
+  Menu,
+  Tooltip as PaperTooltip,
+} from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import * as Speech from 'expo-speech';
 import { useRoute, RouteProp } from '@react-navigation/native';
@@ -21,6 +32,30 @@ import { CONFIG } from '../config/config';
 
 type ChatScreenRouteProp = RouteProp<DrawerParamList, 'Chat'>;
 
+interface DropDownItem {
+  label: string;
+  value: string;
+}
+
+interface Styles {
+  container: ViewStyle;
+  messageList: ViewStyle;
+  messageBubble: ViewStyle;
+  userBubble: ViewStyle;
+  aiBubble: ViewStyle;
+  messageText: TextStyle;
+  inputContainer: ViewStyle;
+  input: ViewStyle;
+  sendButton: ViewStyle;
+  analystButton: ViewStyle;
+  analystDialog: ViewStyle;
+  dialogTitle: TextStyle;
+  loadingIndicator: ViewStyle;
+  typingIndicator: ViewStyle;
+  typingText: TextStyle;
+  analystSelector: ViewStyle;
+}
+
 const ChatScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -30,7 +65,7 @@ const ChatScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAnalyst, setSelectedAnalyst] = useState<Psychoanalyst | null>(null);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
-  const [showAnalystDialog, setShowAnalystDialog] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -42,16 +77,8 @@ const ChatScreen: React.FC = () => {
       setMessages([]);
       setSelectedAnalyst(null);
       setCurrentConversationId(null);
-      setShowAnalystDialog(true);
     }
   }, [route.params?.conversationId]);
-
-  useEffect(() => {
-    // Show analyst selection dialog if no analyst is selected and no conversation is loaded
-    if (!selectedAnalyst && !route.params?.conversationId) {
-      setShowAnalystDialog(true);
-    }
-  }, [selectedAnalyst, route.params?.conversationId]);
 
   const loadConversation = async (conversationId: string) => {
     try {
@@ -61,7 +88,6 @@ const ChatScreen: React.FC = () => {
         setMessages(conversation.messages);
         setSelectedAnalyst(conversation.analyst);
         setCurrentConversationId(conversationId);
-        setShowAnalystDialog(false); // Make sure dialog is closed when loading conversation
       }
     } catch (error) {
       console.error('Failed to load conversation:', error);
@@ -139,29 +165,64 @@ const ChatScreen: React.FC = () => {
     }
   };
 
-  const handleAnalystSelection = (analyst: Psychoanalyst) => {
-    setSelectedAnalyst(analyst);
-    setShowAnalystDialog(false);
-  };
-
   const renderMessage = ({ item }: { item: Message }) => (
     <View
       style={[
         styles.messageBubble,
         item.isUser ? styles.userBubble : styles.aiBubble,
-        { backgroundColor: item.isUser ? theme.colors.primary : theme.colors.secondary },
+        { 
+          backgroundColor: item.isUser 
+            ? theme.colors.primary 
+            : theme.colors.secondary,
+        },
       ]}
     >
-      <Text style={styles.messageText}>{item.text}</Text>
+      <Text style={[
+        styles.messageText,
+        { color: item.isUser ? theme.colors.onPrimary : theme.colors.onSecondary }
+      ]}>
+        {item.text}
+      </Text>
+    </View>
+  );
+
+  const renderAnalystSelector = () => (
+    <View style={styles.analystSelector}>
+      <Menu
+        visible={menuVisible}
+        onDismiss={() => setMenuVisible(false)}
+        anchor={
+          <Button 
+            mode="outlined"
+            onPress={() => setMenuVisible(true)}
+            disabled={currentConversationId !== null}
+          >
+            {selectedAnalyst ? selectedAnalyst.name : t('chat.select_analyst')}
+          </Button>
+        }
+      >
+        {CONFIG.psychoanalysts.map(analyst => (
+          <Menu.Item
+            key={analyst.id}
+            title={analyst.name}
+            onPress={() => {
+              setSelectedAnalyst(analyst);
+              setMenuVisible(false);
+            }}
+          />
+        ))}
+      </Menu>
     </View>
   );
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <BannerAd />
+      {renderAnalystSelector()}
+
       
       <FlatList
         ref={flatListRef}
@@ -170,53 +231,48 @@ const ChatScreen: React.FC = () => {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.messageList}
         onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
+        showsVerticalScrollIndicator={false}
       />
 
-      <View style={styles.inputContainer}>
+      {isLoading && (
+        <View style={[
+          styles.loadingIndicator,
+          { backgroundColor: theme.colors.primary }
+        ]}>
+          <ActivityIndicator color={theme.colors.onPrimary} />
+        </View>
+      )}
+
+      <View style={[
+        styles.inputContainer,
+        { borderTopColor: theme.colors.outline }
+      ]}>
         <TextInput
-          mode="outlined"
+          mode="flat"
           value={inputText}
           onChangeText={setInputText}
           placeholder={t('chat.type_dream')}
           style={styles.input}
           multiline
+          dense
+          right={<TextInput.Icon icon="microphone" onPress={startSpeechToText} />}
         />
-        <IconButton
-          mode="contained"
-          onPress={handleSend}
-          disabled={isLoading || !inputText.trim() || !selectedAnalyst}
-          style={styles.sendButton}
-          icon="send"
-        />
-        <IconButton
-          mode="outlined"
-          onPress={startSpeechToText}
-          disabled={isLoading}
-          icon="microphone"
-        />
+        <PaperTooltip title={t('chat.select_analyst_first')}>
+          <IconButton
+            mode="contained"
+            icon="send"
+            size={24}
+            onPress={handleSend}
+            disabled={isLoading || !inputText.trim() || !selectedAnalyst}
+            style={styles.sendButton}
+          />
+        </PaperTooltip>
       </View>
-
-      <Modal visible={showAnalystDialog} onDismiss={() => setShowAnalystDialog(false)}>
-        <Dialog.Title>{t('chat.select_analyst')}</Dialog.Title>
-        <Dialog.Content>
-            {CONFIG.psychoanalysts.map((analyst: Psychoanalyst) => (
-              <Button
-                key={analyst.id}
-                mode="outlined"
-                onPress={() => handleAnalystSelection(analyst)}
-                style={styles.analystButton}
-                labelStyle={{ color: analyst.badgeColor }}
-              >
-                {analyst.name}
-              </Button>
-            ))}
-          </Dialog.Content>
-      </Modal>
     </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
   },
@@ -225,34 +281,84 @@ const styles = StyleSheet.create({
   },
   messageBubble: {
     maxWidth: '80%',
-    padding: 12,
-    borderRadius: 16,
+    padding: 16,
+    borderRadius: 20,
     marginVertical: 4,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   userBubble: {
     alignSelf: 'flex-end',
+    borderTopRightRadius: 4,
+    marginLeft: '20%',
   },
   aiBubble: {
     alignSelf: 'flex-start',
+    borderTopLeftRadius: 4,
+    marginRight: '20%',
   },
   messageText: {
     color: 'white',
     fontSize: 16,
+    lineHeight: 24,
   },
   inputContainer: {
     padding: 16,
+    paddingTop: 8,
+    borderTopWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   input: {
     flex: 1,
     marginRight: 8,
+    maxHeight: 120,
+    backgroundColor: 'transparent',
   },
   sendButton: {
     marginLeft: 8,
+    marginBottom: 4,
+  },
+  analystSelector: {
+    padding: 16,
+    paddingBottom: 8,
   },
   analystButton: {
-    marginVertical: 4,
+    marginVertical: 8,
+    borderRadius: 8,
+    elevation: 2,
+  },
+  analystDialog: {
+    borderRadius: 16,
+    backgroundColor: 'transparent',
+  },
+  dialogTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+    borderRadius: 24,
+    padding: 8,
+    elevation: 4,
+  },
+  typingIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    marginLeft: 16,
+  },
+  typingText: {
+    fontSize: 12,
+    opacity: 0.7,
+    marginLeft: 8,
   },
 });
 

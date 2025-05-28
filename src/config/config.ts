@@ -90,29 +90,98 @@ export const CONFIG = {
       ...DefaultTheme,
       colors: {
         ...DefaultTheme.colors,
-        primary: '#6200ee',
-        secondary: '#03dac6',
-        background: '#f6f6f6',
-        surface: '#ffffff',
-        error: '#B00020',
-        text: '#000000',
-        onSurface: '#000000',
-        disabled: '#000000',
-        placeholder: '#000000',
-        backdrop: '#000000',
+        // Modern primary and accent colors
+        primary: '#7C4DFF', // Rich purple for primary actions
+        primaryContainer: '#EDE7FF', // Light purple for containers
+        secondary: '#00BFA5', // Teal for secondary actions
+        secondaryContainer: '#E0F7F5', // Light teal for containers
+        
+        // Neutral colors
+        background: '#FFFFFF',
+        surface: '#FAFAFA',
+        surfaceVariant: '#F5F5F5',
+        
+        // Text colors
+        text: '#1A1A1A',
+        onSurface: '#1A1A1A',
+        onSurfaceVariant: '#757575',
+        onPrimary: '#FFFFFF',
+        onSecondary: '#FFFFFF',
+        
+        // Status colors
+        error: '#FF5252',
+        success: '#4CAF50',
+        warning: '#FFC107',
+        info: '#2196F3',
+        
+        // UI element colors
+        outline: '#E0E0E0',
+        disabled: '#BDBDBD',
+        placeholder: '#9E9E9E',
+        backdrop: 'rgba(0, 0, 0, 0.5)',
+        
+        // Card and elevation colors
+        elevation: {
+          level0: 'transparent',
+          level1: '#FFFFFF',
+          level2: '#FFFFFF',
+          level3: '#FFFFFF',
+          level4: '#FFFFFF',
+          level5: '#FFFFFF',
+        },
+      },
+      roundness: 12,
+      animation: {
+        scale: 1.0,
       },
     },
     dark: {
       ...MD3DarkTheme,
       colors: {
         ...MD3DarkTheme.colors,
-        primary: '#BB86FC',
-        secondary: '#03DAC6',
+        // Modern dark theme colors
+        primary: '#B388FF', // Lighter purple for dark theme
+        primaryContainer: '#311B92', // Deep purple for containers
+        secondary: '#1DE9B6', // Bright teal for secondary actions
+        secondaryContainer: '#004D40', // Deep teal for containers
+        
+        // Dark theme neutral colors
         background: '#121212',
-        surface: '#121212',
-        error: '#CF6679',
-        onSurface: '#FFFFFF',
+        surface: '#1E1E1E',
+        surfaceVariant: '#2C2C2C',
+        
+        // Text colors for dark theme
         text: '#FFFFFF',
+        onSurface: '#FFFFFF',
+        onSurfaceVariant: '#BBBBBB',
+        onPrimary: '#000000',
+        onSecondary: '#000000',
+        
+        // Status colors for dark theme
+        error: '#FF5252',
+        success: '#69F0AE',
+        warning: '#FFD740',
+        info: '#448AFF',
+        
+        // UI element colors for dark theme
+        outline: '#3E3E3E',
+        disabled: '#6E6E6E',
+        placeholder: '#9E9E9E',
+        backdrop: 'rgba(0, 0, 0, 0.7)',
+        
+        // Card and elevation colors for dark theme
+        elevation: {
+          level0: '#121212',
+          level1: '#1E1E1E',
+          level2: '#232323',
+          level3: '#252525',
+          level4: '#272727',
+          level5: '#2C2C2C',
+        },
+      },
+      roundness: 12,
+      animation: {
+        scale: 1.0,
       },
     },
   },

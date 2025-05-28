@@ -266,6 +266,10 @@ const DrawerNavigator = () => {
         component={ChatScreen}
         options={{
           title: 'Dream Interpreter',
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+          },
+          headerTintColor: theme.colors.onPrimary,
         }}
       />
     </Drawer.Navigator>
