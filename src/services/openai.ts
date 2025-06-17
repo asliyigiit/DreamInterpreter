@@ -1,5 +1,5 @@
 import CONFIG from '../config/config';
-import { ChatResponse } from '../types';
+import { ChatResponse, DreamInterpretationParams } from '../types';
 
 class OpenAIService {
   private readonly headers: HeadersInit = {
@@ -100,12 +100,12 @@ class OpenAIService {
   async interpretDream(
     dream: string,
     analyst: string,
-    preChatAnswers: Record<string, string>,
+    params: DreamInterpretationParams = {}
   ): Promise<ChatResponse> {
     try {
       const threadId = await this.createThread();
       
-      const context = `Dream: ${dream}\nAdditional Context: ${JSON.stringify(preChatAnswers)}`;
+      const context = `Dream: ${dream}\nAdditional Context: ${JSON.stringify(params)}`;
       await this.addMessageToThread(threadId, context);
 
       const instructions = `You are ${analyst}, a renowned psychoanalyst. Analyze the following dream using your unique theoretical framework and methodology. Consider any additional context provided. IMPORTANT: Always answer in the same language the user just used. If the user writes in Turkish, answer in Turkish.`;
@@ -114,7 +114,7 @@ class OpenAIService {
       
       return {
         text: response,
-        threadId, // Store threadId for future reference
+        threadId,
       };
     } catch (error) {
       return {

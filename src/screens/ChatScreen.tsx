@@ -54,6 +54,19 @@ interface Styles {
   typingIndicator: ViewStyle;
   typingText: TextStyle;
   analystSelector: ViewStyle;
+  selectorsContainer: ViewStyle;
+  emotionSelector: ViewStyle;
+  emotionButton: ViewStyle;
+}
+
+interface ConversationData {
+  id: string;
+  analyst: Psychoanalyst;
+  emotionId?: string;
+  emotionEmoji?: string;
+  messages: Message[];
+  preChatAnswers: Record<string, string>;
+  timestamp: number;
 }
 
 const ChatScreen: React.FC = () => {
@@ -66,6 +79,8 @@ const ChatScreen: React.FC = () => {
   const [selectedAnalyst, setSelectedAnalyst] = useState<Psychoanalyst | null>(null);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const [emotionMenuVisible, setEmotionMenuVisible] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -112,6 +127,10 @@ const ChatScreen: React.FC = () => {
     try {
       //await AdService.showInterstitial();
 
+      const selectedEmotionData = selectedEmotion 
+        ? CONFIG.emotions.find(e => e.id === selectedEmotion)
+        : undefined;
+
       const response = currentConversationId 
         ? await OpenAIService.followUpQuestion(
             updatedMessages.map(m => m.text),
@@ -121,7 +140,10 @@ const ChatScreen: React.FC = () => {
         : await OpenAIService.interpretDream(
             inputText,
             selectedAnalyst.name,
-            {},
+            {
+              selectedEmotion: selectedEmotionData?.id,
+              selectedEmotionEmoji: selectedEmotionData?.emoji,
+            },
           );
 
       if (response.text) {
@@ -135,9 +157,11 @@ const ChatScreen: React.FC = () => {
         const finalMessages = [...updatedMessages, aiMessage];
         setMessages(finalMessages);
 
-        const conversationData = {
+        const conversationData: ConversationData = {
           id: currentConversationId || Date.now().toString(),
           analyst: selectedAnalyst,
+          emotionId: selectedEmotionData?.id,
+          emotionEmoji: selectedEmotionData?.emoji,
           messages: finalMessages,
           preChatAnswers: {},
           timestamp: Date.now(),
@@ -186,32 +210,63 @@ const ChatScreen: React.FC = () => {
     </View>
   );
 
-  const renderAnalystSelector = () => (
-    <View style={styles.analystSelector}>
-      <Menu
-        visible={menuVisible}
-        onDismiss={() => setMenuVisible(false)}
-        anchor={
-          <Button 
-            mode="outlined"
-            onPress={() => setMenuVisible(true)}
-            disabled={currentConversationId !== null}
-          >
-            {selectedAnalyst ? selectedAnalyst.name : t('chat.select_analyst')}
-          </Button>
-        }
-      >
-        {CONFIG.psychoanalysts.map(analyst => (
-          <Menu.Item
-            key={analyst.id}
-            title={analyst.name}
-            onPress={() => {
-              setSelectedAnalyst(analyst);
-              setMenuVisible(false);
-            }}
-          />
-        ))}
-      </Menu>
+  const renderSelectors = () => (
+    <View style={styles.selectorsContainer}>
+      <View style={styles.analystSelector}>
+        <Menu
+          visible={menuVisible}
+          onDismiss={() => setMenuVisible(false)}
+          anchor={
+            <Button 
+              mode="outlined"
+              onPress={() => setMenuVisible(true)}
+              disabled={currentConversationId !== null}
+              style={styles.analystButton}
+            >
+              {selectedAnalyst ? selectedAnalyst.name : t('chat.select_analyst')}
+            </Button>
+          }
+        >
+          {CONFIG.psychoanalysts.map(analyst => (
+            <Menu.Item
+              key={analyst.id}
+              title={analyst.name}
+              onPress={() => {
+                setSelectedAnalyst(analyst);
+                setMenuVisible(false);
+              }}
+            />
+          ))}
+        </Menu>
+      </View>
+
+      <View style={styles.emotionSelector}>
+        <Menu
+          visible={emotionMenuVisible}
+          onDismiss={() => setEmotionMenuVisible(false)}
+          anchor={
+            <Button 
+              mode="outlined"
+              onPress={() => setEmotionMenuVisible(true)}
+              disabled={currentConversationId !== null}
+              style={styles.emotionButton}
+            >
+              {selectedEmotion ? CONFIG.emotions.find(e => e.id === selectedEmotion)?.emoji : t('chat.select_emotion')}
+            </Button>
+          }
+        >
+          {CONFIG.emotions.map(emotion => (
+            <Menu.Item
+              key={emotion.id}
+              title={`${emotion.emoji}  ${t(`emotions.${emotion.id}`)}`}
+              onPress={() => {
+                setSelectedEmotion(emotion.id);
+                setEmotionMenuVisible(false);
+              }}
+            />
+          ))}
+        </Menu>
+      </View>
     </View>
   );
 
@@ -221,7 +276,7 @@ const ChatScreen: React.FC = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <BannerAd />
-      {renderAnalystSelector()}
+      {renderSelectors()}
 
       
       <FlatList
@@ -322,14 +377,23 @@ const styles = StyleSheet.create<Styles>({
     marginLeft: 8,
     marginBottom: 4,
   },
-  analystSelector: {
+  selectorsContainer: {
+    flexDirection: 'row',
     padding: 16,
     paddingBottom: 8,
   },
+  analystSelector: {
+    flex: 7,
+    marginRight: 8,
+  },
+  emotionSelector: {
+    flex: 5,
+  },
   analystButton: {
-    marginVertical: 8,
-    borderRadius: 8,
-    elevation: 2,
+    width: '100%',
+  },
+  emotionButton: {
+    width: '100%',
   },
   analystDialog: {
     borderRadius: 16,

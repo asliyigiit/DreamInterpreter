@@ -21,7 +21,17 @@
     "ad_loading": "Loading advertisement...",
     "history": "Chat History",
     "delete_confirm": "Delete this conversation?",
-    "no_history": "No chat history yet"
+    "no_history": "No chat history yet",
+    "select_emotion": "Select emotion"
+  },
+  "emotions": {
+    "fear": "Afraid",
+    "happiness": "Happy",
+    "sadness": "Sad",
+    "anger": "Angry",
+    "surprise": "Surprised",
+    "curiosity": "Curious",
+    "inspiration": "Inspired"
   },
   "preferences": {
     "settings": "Settings",

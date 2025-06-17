@@ -21,7 +21,17 @@
     "ad_loading": "Reklam yükleniyor...",
     "history": "Sohbet Geçmişi",
     "delete_confirm": "Bu konuşmayı silmek istiyor musunuz?",
-    "no_history": "Henüz sohbet geçmişi yok"
+    "no_history": "Henüz sohbet geçmişi yok",
+     "select_emotion": "Duygu seç"
+  },
+  "emotions": {
+    "fear": "Ürktüm",
+    "happiness": "Sevindim",
+    "sadness": "Hüzünlüydüm",
+    "anger": "Kızgındım",
+    "surprise": "Şaşırdım",
+    "curiosity": "Meraklandım",
+    "inspiration": "İlham Aldım"
   },
   "preferences": {
     "settings": "Ayarlar",

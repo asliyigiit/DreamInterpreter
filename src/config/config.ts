@@ -7,11 +7,17 @@ export interface Psychoanalyst {
   description: string;
 }
 
+export interface EmotionCategory {
+  id: string;
+  emoji: string;
+}
+
 export interface PreChatQuestion {
   id: string;
   label: string;
   type: 'text' | 'dropdown';
   options?: string[]; // For dropdown type
+  optional?: boolean;
 }
 
 export const CONFIG = {
@@ -21,6 +27,38 @@ export const CONFIG = {
     description: 'A psychoanalytic dream interpretation app powered by AI',
   },
   
+  // Emotion categories
+  emotions: [
+    {
+      id: 'fear',
+      emoji: '😨',
+    },
+    {
+      id: 'happiness',
+      emoji: '😄',
+    },
+    {
+      id: 'sadness',
+      emoji: '😢',
+    },
+    {
+      id: 'anger',
+      emoji: '😠',
+    },
+    {
+      id: 'surprise',
+      emoji: '😯',
+    },
+    {
+      id: 'curiosity',
+      emoji: '🤔',
+    },
+    {
+      id: 'inspiration',
+      emoji: '💡',
+    },
+  ] as EmotionCategory[],
+
   // Default psychoanalysts
   psychoanalysts: [
     {
@@ -62,6 +100,13 @@ export const CONFIG = {
       label: 'What emotions did you feel during the dream?',
       type: 'text',
     },
+    {
+      id: 'emotionCategory',
+      label: 'Select your primary emotion from the dream',
+      type: 'dropdown',
+      options: ['fear', 'happiness', 'sadness', 'anger', 'surprise', 'curiosity', 'inspiration'],
+      optional: true,
+    },
   ] as PreChatQuestion[],
 
   // Ad configuration
@@ -75,11 +120,10 @@ export const CONFIG = {
 
   // OpenAI configuration
   openai: {
-    // CUSTOM_CONFIG HERE - Replace with actual API key and endpoint
-    apiKey: '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',
-    endpoint: 'https://api.openai.com/v1/chat/completions',
-    assistantId: 'asst_uEwtZVZFuqDUzYAtyzbX92Zm',
-    model: 'gpt-4o-mini',
+    apiKey: process.env.OPENAI_API_KEY,
+    endpoint: process.env.OPENAI_ENDPOINT,
+    assistantId: process.env.OPENAI_ASSISTANT_ID,
+    model: process.env.OPENAI_MODEL,
     temperature: 0.7,
     maxTokens: 2000,
   },

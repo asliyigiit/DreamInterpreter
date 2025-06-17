@@ -28,6 +28,11 @@ export interface AppState {
   conversations: Conversation[];
 }
 
+export interface DreamInterpretationParams {
+  selectedEmotion?: string;
+  selectedEmotionEmoji?: string;
+}
+
 export interface ChatResponse {
   text: string;
   error?: string;
